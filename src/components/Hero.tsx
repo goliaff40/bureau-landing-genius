@@ -10,12 +10,12 @@ const Hero = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="text-center lg:text-left">
             <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Увеличиваем <span className="text-blue-600">конверсию на 50%</span> за 30 дней: создаем сайты, которые продают
+              Экономим <span className="text-blue-600">15% налогов</span> и возвращаем 20+ часов в месяц владельцам бизнеса
             </h1>
             
             <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              Разработаем landing page, который будет приносить от 50 лидов в месяц. 
-              <span className="font-semibold text-green-600"> Гарантируем результат или вернем деньги.</span>
+              Берем на себя всю бухгалтерию и юридическое сопровождение. 
+              <span className="font-semibold text-green-600"> Гарантируем отсутствие штрафов или возмещаем их.</span>
             </p>
 
             {/* УТП блок */}
@@ -35,7 +35,7 @@ const Hero = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <span className="font-semibold text-gray-900">14 дней на тест</span>
+                  <span className="font-semibold text-gray-900">Пробный период 2 недели</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
@@ -51,7 +51,7 @@ const Hero = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <span className="font-semibold text-gray-900">Гарантия результата</span>
+                  <span className="font-semibold text-gray-900">Возмещение штрафов</span>
                 </div>
               </div>
             </div>
@@ -61,29 +61,29 @@ const Hero = () => {
                 size="lg" 
                 className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
               >
-                Получить Бесплатный Аудит Сайта
+                Получить Бесплатную Консультацию
               </Button>
               <Button 
                 variant="outline" 
                 size="lg"
                 className="border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-300"
               >
-                Посмотреть Кейсы
+                Посмотреть Тарифы
               </Button>
             </div>
             
             <div className="mt-8 flex items-center justify-center lg:justify-start gap-6 text-sm text-gray-500">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span>127 успешных проектов</span>
+                <span>250+ довольных клиентов</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span>Средний рост конверсии 47%</span>
+                <span>15% экономия на налогах</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span>15 дней средний срок</span>
+                <span>10 лет опыта</span>
               </div>
             </div>
           </div>
@@ -94,29 +94,29 @@ const Hero = () => {
                 <div className="mb-6">
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
                     <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Результат за 30 дней</h3>
-                  <p className="text-gray-600">Реальные цифры наших клиентов</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Результат наших клиентов</h3>
+                  <p className="text-gray-600">Экономия времени и денег</p>
                 </div>
                 
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-gray-700">+47% конверсия в среднем</span>
+                    <span className="text-gray-700">Возвращаем 20+ часов в месяц</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-gray-700">от 50 лидов в месяц</span>
+                    <span className="text-gray-700">Экономия 15% на налогах</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-gray-700">ROI от 300%</span>
+                    <span className="text-gray-700">0 штрафов от ИФНС</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-gray-700">15 дней до запуска</span>
+                    <span className="text-gray-700">Полное спокойствие</span>
                   </div>
                 </div>
               </div>
