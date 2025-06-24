@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { ChevronRight, ChevronLeft, Check } from "lucide-react";
+import { ChevronRight, ChevronLeft, Check, Gift, Percent } from "lucide-react";
 
 interface FormData {
   businessType: string;
@@ -32,6 +32,30 @@ const ConsultationForm = ({ children }: ConsultationFormProps) => {
 
   const totalSteps = 5;
 
+  // Рассчитываем скидку и бонусы на основе заполненных шагов
+  const getDiscountAndBonuses = () => {
+    const completedSteps = [
+      formData.businessType,
+      formData.currentSolution,
+      formData.mainChallenge,
+      formData.teamSize
+    ].filter(Boolean).length;
+
+    const discounts = [0, 15, 25, 35, 50];
+    const bonuses = [
+      [],
+      ['Бесплатная настройка'],
+      ['Бесплатная настройка', 'Консультация юриста'],
+      ['Бесплатная настройка', 'Консультация юриста', 'Аудит за прошлый период'],
+      ['Бесплатная настройка', 'Консультация юриста', 'Аудит за прошлый период', 'Персональный менеджер']
+    ];
+
+    return {
+      discount: discounts[completedSteps],
+      bonuses: bonuses[completedSteps]
+    };
+  };
+
   const handleOptionSelect = (field: keyof FormData, value: string) => {
     setFormData(prev => ({
       ...prev,
@@ -55,7 +79,7 @@ const ConsultationForm = ({ children }: ConsultationFormProps) => {
     console.log('Form submitted:', formData);
     toast({
       title: "Заявка отправлена!",
-      description: "Мы свяжемся с вами в течение 15 минут",
+      description: "Персональное предложение отправим в WhatsApp в течение 15 минут",
     });
     setIsOpen(false);
     setCurrentStep(1);
@@ -84,6 +108,8 @@ const ConsultationForm = ({ children }: ConsultationFormProps) => {
         return false;
     }
   };
+
+  const { discount, bonuses } = getDiscountAndBonuses();
 
   const renderStep = () => {
     switch (currentStep) {
@@ -199,9 +225,9 @@ const ConsultationForm = ({ children }: ConsultationFormProps) => {
       case 5:
         return (
           <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-center mb-4">Оставьте номер телефона</h3>
+            <h3 className="text-xl font-semibold text-center mb-4">Укажите номер для WhatsApp</h3>
             <p className="text-center text-gray-600 mb-8">
-              Перезвоним в течение 15 минут и предложим решение именно для вашей ситуации
+              Отправим персональное предложение со скидкой {discount}% в WhatsApp в течение 15 минут. Звонить не будем.
             </p>
             <div>
               <Input
@@ -214,12 +240,12 @@ const ConsultationForm = ({ children }: ConsultationFormProps) => {
             </div>
             
             <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-              <h4 className="font-semibold text-green-800 mb-2 text-center">Что будет дальше:</h4>
+              <h4 className="font-semibold text-green-800 mb-2 text-center">Что вы получите в WhatsApp:</h4>
               <ul className="text-sm text-green-700 space-y-1">
-                <li>✓ Звонок в течение 15 минут</li>
-                <li>✓ Бесплатный аудит вашего учета</li>
-                <li>✓ Персональное предложение</li>
-                <li>✓ Экономия 15% на налогах</li>
+                <li>✓ Персональное предложение со скидкой {discount}%</li>
+                <li>✓ Подробный план работы для вашей ситуации</li>
+                <li>✓ Расчет экономии на налогах</li>
+                <li>✓ Все включенные бонусы</li>
               </ul>
             </div>
           </div>
@@ -235,56 +261,128 @@ const ConsultationForm = ({ children }: ConsultationFormProps) => {
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-center">Бесплатная консультация</DialogTitle>
+          <DialogTitle className="text-center">Рассчитайте персональную скидку</DialogTitle>
         </DialogHeader>
         
-        <div className="mb-6">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-gray-600">Шаг {currentStep} из {totalSteps}</span>
-            <span className="text-sm text-gray-600">{Math.round((currentStep / totalSteps) * 100)}%</span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div 
-              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-              style={{ width: `${(currentStep / totalSteps) * 100}%` }}
-            />
-          </div>
-        </div>
+        <div className="grid md:grid-cols-3 gap-8">
+          {/* Основная форма */}
+          <div className="md:col-span-2">
+            <div className="mb-6">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm text-gray-600">Шаг {currentStep} из {totalSteps}</span>
+                <span className="text-sm text-gray-600">{Math.round((currentStep / totalSteps) * 100)}%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div 
+                  className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+                />
+              </div>
+            </div>
 
-        {renderStep()}
+            {renderStep()}
 
-        <div className="flex justify-between mt-8">
-          <Button
-            variant="outline"
-            onClick={handlePrev}
-            disabled={currentStep === 1}
-            className="flex items-center gap-2"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Назад
-          </Button>
-          
-          {currentStep === totalSteps ? (
-            <Button
-              onClick={handleSubmit}
-              disabled={!canProceed()}
-              className="bg-orange-500 hover:bg-orange-600 text-white flex items-center gap-2"
-            >
-              <Check className="w-4 h-4" />
-              Получить консультацию
-            </Button>
-          ) : (
-            <Button
-              onClick={handleNext}
-              disabled={!canProceed()}
-              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2"
-            >
-              Далее
-              <ChevronRight className="w-4 h-4" />
-            </Button>
-          )}
+            <div className="flex justify-between mt-8">
+              <Button
+                variant="outline"
+                onClick={handlePrev}
+                disabled={currentStep === 1}
+                className="flex items-center gap-2"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Назад
+              </Button>
+              
+              {currentStep === totalSteps ? (
+                <Button
+                  onClick={handleSubmit}
+                  disabled={!canProceed()}
+                  className="bg-orange-500 hover:bg-orange-600 text-white flex items-center gap-2"
+                >
+                  <Check className="w-4 h-4" />
+                  Получить предложение в WhatsApp
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleNext}
+                  disabled={!canProceed()}
+                  className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2"
+                >
+                  Далее
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              )}
+            </div>
+          </div>
+
+          {/* Боковая панель со скидкой и бонусами */}
+          <div className="space-y-6">
+            {/* Скидка */}
+            <div className="bg-gradient-to-br from-orange-500 to-red-500 text-white p-6 rounded-xl">
+              <div className="flex items-center gap-2 mb-2">
+                <Percent className="w-5 h-5" />
+                <span className="font-semibold">Ваша скидка</span>
+              </div>
+              <div className="text-3xl font-bold mb-2">{discount}%</div>
+              <div className="text-sm opacity-90">
+                {discount === 0 ? 'Ответьте на вопросы, чтобы увеличить скидку' : 
+                 discount < 50 ? 'Продолжайте отвечать для увеличения скидки' : 
+                 'Максимальная скидка получена!'}
+              </div>
+            </div>
+
+            {/* Бонусы */}
+            <div className="bg-white border-2 border-green-200 p-6 rounded-xl">
+              <div className="flex items-center gap-2 mb-4">
+                <Gift className="w-5 h-5 text-green-600" />
+                <span className="font-semibold text-green-800">Ваши бонусы</span>
+              </div>
+              
+              {bonuses.length === 0 ? (
+                <div className="text-gray-500 text-sm">
+                  Отвечайте на вопросы, чтобы получить бонусы
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {bonuses.map((bonus, index) => (
+                    <div key={index} className="flex items-center gap-2 text-sm">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-green-700">{bonus}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              
+              {bonuses.length < 4 && (
+                <div className="mt-4 p-3 bg-green-50 rounded-lg">
+                  <div className="text-xs text-green-600 font-medium">
+                    Следующий бонус через {4 - bonuses.length} {4 - bonuses.length === 1 ? 'ответ' : 'ответа'}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Гарантии */}
+            <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
+              <h4 className="font-semibold text-blue-800 mb-3">Наши гарантии:</h4>
+              <div className="space-y-2 text-sm text-blue-700">
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                  <span>Возмещение всех штрафов</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                  <span>Экономия 15% на налогах</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                  <span>Результат в первый месяц</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
