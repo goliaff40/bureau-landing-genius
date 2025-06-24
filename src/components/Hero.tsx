@@ -1,5 +1,6 @@
 
 import { Button } from "@/components/ui/button";
+import ConsultationForm from "@/components/ConsultationForm";
 
 const Hero = () => {
   return (
@@ -56,20 +57,15 @@ const Hero = () => {
               </div>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button 
-                size="lg" 
-                className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-              >
-                Получить Бесплатную Консультацию
-              </Button>
-              <Button 
-                variant="outline" 
-                size="lg"
-                className="border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-300"
-              >
-                Посмотреть Тарифы
-              </Button>
+            <div className="flex justify-center lg:justify-start">
+              <ConsultationForm>
+                <Button 
+                  size="lg" 
+                  className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  Получить Бесплатную Консультацию
+                </Button>
+              </ConsultationForm>
             </div>
             
             <div className="mt-8 flex items-center justify-center lg:justify-start gap-6 text-sm text-gray-500">

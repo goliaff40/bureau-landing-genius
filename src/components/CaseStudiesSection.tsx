@@ -1,4 +1,6 @@
 
+import ConsultationForm from "@/components/ConsultationForm";
+
 const CaseStudiesSection = () => {
   const cases = [
     {
@@ -81,9 +83,11 @@ const CaseStudiesSection = () => {
         <div className="bg-gradient-to-r from-blue-600 to-green-600 rounded-2xl p-8 text-white text-center">
           <h3 className="text-2xl font-bold mb-4">Хотите забыть о проблемах с учетом и налогами?</h3>
           <p className="text-lg opacity-90 mb-6">Запишитесь на бесплатную консультацию и получите персональное решение для вашего бизнеса</p>
-          <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-            Получить Бесплатную Консультацию
-          </button>
+          <ConsultationForm>
+            <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+              Получить Бесплатную Консультацию
+            </button>
+          </ConsultationForm>
         </div>
       </div>
     </section>

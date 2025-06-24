@@ -1,5 +1,6 @@
 
 import { Button } from "@/components/ui/button";
+import ConsultationForm from "@/components/ConsultationForm";
 
 const FinalCTASection = () => {
   return (
@@ -42,13 +43,15 @@ const FinalCTASection = () => {
             >
               Начать Работу со Скидкой 50%
             </Button>
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-12 py-6 text-xl font-bold rounded-xl bg-transparent backdrop-blur-sm transition-all duration-300"
-            >
-              Получить Бесплатную Консультацию
-            </Button>
+            <ConsultationForm>
+              <Button 
+                variant="outline" 
+                size="lg"
+                className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-12 py-6 text-xl font-bold rounded-xl bg-transparent backdrop-blur-sm transition-all duration-300"
+              >
+                Получить Бесплатную Консультацию
+              </Button>
+            </ConsultationForm>
           </div>
 
           <div className="bg-yellow-400 text-gray-900 inline-block px-8 py-4 rounded-xl font-bold text-lg mb-8">
