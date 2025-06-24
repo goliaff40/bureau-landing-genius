@@ -3,19 +3,15 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { ChevronRight, ChevronLeft, Check } from "lucide-react";
 
 interface FormData {
-  name: string;
-  phone: string;
-  email: string;
-  company: string;
   businessType: string;
-  currentAccounting: string;
-  problems: string;
-  preferredContact: string;
+  currentSolution: string;
+  mainChallenge: string;
+  teamSize: string;
+  phone: string;
 }
 
 interface ConsultationFormProps {
@@ -26,20 +22,17 @@ const ConsultationForm = ({ children }: ConsultationFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    phone: '',
-    email: '',
-    company: '',
     businessType: '',
-    currentAccounting: '',
-    problems: '',
-    preferredContact: 'phone'
+    currentSolution: '',
+    mainChallenge: '',
+    teamSize: '',
+    phone: ''
   });
   const { toast } = useToast();
 
-  const totalSteps = 4;
+  const totalSteps = 5;
 
-  const handleInputChange = (field: keyof FormData, value: string) => {
+  const handleOptionSelect = (field: keyof FormData, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
@@ -67,27 +60,26 @@ const ConsultationForm = ({ children }: ConsultationFormProps) => {
     setIsOpen(false);
     setCurrentStep(1);
     setFormData({
-      name: '',
-      phone: '',
-      email: '',
-      company: '',
       businessType: '',
-      currentAccounting: '',
-      problems: '',
-      preferredContact: 'phone'
+      currentSolution: '',
+      mainChallenge: '',
+      teamSize: '',
+      phone: ''
     });
   };
 
   const canProceed = () => {
     switch (currentStep) {
       case 1:
-        return formData.name && formData.phone;
+        return formData.businessType !== '';
       case 2:
-        return formData.company && formData.businessType;
+        return formData.currentSolution !== '';
       case 3:
-        return formData.currentAccounting;
+        return formData.mainChallenge !== '';
       case 4:
-        return true;
+        return formData.teamSize !== '';
+      case 5:
+        return formData.phone !== '';
       default:
         return false;
     }
@@ -97,148 +89,137 @@ const ConsultationForm = ({ children }: ConsultationFormProps) => {
     switch (currentStep) {
       case 1:
         return (
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold mb-4">Расскажите о себе</h3>
-            <div>
-              <label className="block text-sm font-medium mb-2">Ваше имя *</label>
-              <Input
-                value={formData.name}
-                onChange={(e) => handleInputChange('name', e.target.value)}
-                placeholder="Введите ваше имя"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">Телефон *</label>
-              <Input
-                value={formData.phone}
-                onChange={(e) => handleInputChange('phone', e.target.value)}
-                placeholder="+7 (999) 123-45-67"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">Email</label>
-              <Input
-                value={formData.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
-                placeholder="your@email.com"
-                type="email"
-              />
+          <div className="space-y-6">
+            <h3 className="text-xl font-semibold text-center mb-8">Какой у вас тип бизнеса?</h3>
+            <div className="grid gap-3">
+              {[
+                'ИП',
+                'ООО',
+                'Самозанятый',
+                'Планирую открыть бизнес'
+              ].map((option) => (
+                <button
+                  key={option}
+                  onClick={() => handleOptionSelect('businessType', option)}
+                  className={`p-4 rounded-lg border-2 text-left transition-all ${
+                    formData.businessType === option
+                      ? 'border-blue-500 bg-blue-50'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  {option}
+                </button>
+              ))}
             </div>
           </div>
         );
 
       case 2:
         return (
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold mb-4">О вашем бизнесе</h3>
-            <div>
-              <label className="block text-sm font-medium mb-2">Название компании *</label>
-              <Input
-                value={formData.company}
-                onChange={(e) => handleInputChange('company', e.target.value)}
-                placeholder="ООО Ромашка"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">Сфера деятельности *</label>
-              <select
-                className="w-full p-2 border border-gray-300 rounded-md"
-                value={formData.businessType}
-                onChange={(e) => handleInputChange('businessType', e.target.value)}
-              >
-                <option value="">Выберите сферу</option>
-                <option value="retail">Розничная торговля</option>
-                <option value="services">Услуги</option>
-                <option value="production">Производство</option>
-                <option value="construction">Строительство</option>
-                <option value="it">IT</option>
-                <option value="food">Общепит</option>
-                <option value="other">Другое</option>
-              </select>
+          <div className="space-y-6">
+            <h3 className="text-xl font-semibold text-center mb-8">Как сейчас ведете учет?</h3>
+            <div className="grid gap-3">
+              {[
+                'Веду сам',
+                'Штатный бухгалтер',
+                'Аутсорс компания',
+                'Никак не веду'
+              ].map((option) => (
+                <button
+                  key={option}
+                  onClick={() => handleOptionSelect('currentSolution', option)}
+                  className={`p-4 rounded-lg border-2 text-left transition-all ${
+                    formData.currentSolution === option
+                      ? 'border-blue-500 bg-blue-50'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  {option}
+                </button>
+              ))}
             </div>
           </div>
         );
 
       case 3:
         return (
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold mb-4">Текущая ситуация</h3>
-            <div>
-              <label className="block text-sm font-medium mb-2">Кто сейчас ведет учет? *</label>
-              <select
-                className="w-full p-2 border border-gray-300 rounded-md"
-                value={formData.currentAccounting}
-                onChange={(e) => handleInputChange('currentAccounting', e.target.value)}
-              >
-                <option value="">Выберите вариант</option>
-                <option value="owner">Веду сам</option>
-                <option value="employee">Штатный бухгалтер</option>
-                <option value="outsource">Сторонняя компания</option>
-                <option value="none">Никто не ведет</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">Какие проблемы хотите решить?</label>
-              <Textarea
-                value={formData.problems}
-                onChange={(e) => handleInputChange('problems', e.target.value)}
-                placeholder="Опишите ваши проблемы с учетом и налогами"
-                rows={4}
-              />
+          <div className="space-y-6">
+            <h3 className="text-xl font-semibold text-center mb-8">Что больше всего беспокоит?</h3>
+            <div className="grid gap-3">
+              {[
+                'Штрафы от налоговой',
+                'Много времени на учет',
+                'Путаница с документами',
+                'Переплачиваю налоги',
+                'Нет времени разбираться'
+              ].map((option) => (
+                <button
+                  key={option}
+                  onClick={() => handleOptionSelect('mainChallenge', option)}
+                  className={`p-4 rounded-lg border-2 text-left transition-all ${
+                    formData.mainChallenge === option
+                      ? 'border-blue-500 bg-blue-50'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  {option}
+                </button>
+              ))}
             </div>
           </div>
         );
 
       case 4:
         return (
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold mb-4">Как с вами связаться?</h3>
+          <div className="space-y-6">
+            <h3 className="text-xl font-semibold text-center mb-8">Сколько у вас сотрудников?</h3>
+            <div className="grid gap-3">
+              {[
+                'Только я',
+                '2-5 человек',
+                '6-20 человек',
+                'Более 20 человек'
+              ].map((option) => (
+                <button
+                  key={option}
+                  onClick={() => handleOptionSelect('teamSize', option)}
+                  className={`p-4 rounded-lg border-2 text-left transition-all ${
+                    formData.teamSize === option
+                      ? 'border-blue-500 bg-blue-50'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          </div>
+        );
+
+      case 5:
+        return (
+          <div className="space-y-6">
+            <h3 className="text-xl font-semibold text-center mb-4">Оставьте номер телефона</h3>
+            <p className="text-center text-gray-600 mb-8">
+              Перезвоним в течение 15 минут и предложим решение именно для вашей ситуации
+            </p>
             <div>
-              <label className="block text-sm font-medium mb-2">Предпочтительный способ связи</label>
-              <div className="space-y-2">
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="preferredContact"
-                    value="phone"
-                    checked={formData.preferredContact === 'phone'}
-                    onChange={(e) => handleInputChange('preferredContact', e.target.value)}
-                    className="mr-2"
-                  />
-                  Телефонный звонок
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="preferredContact"
-                    value="whatsapp"
-                    checked={formData.preferredContact === 'whatsapp'}
-                    onChange={(e) => handleInputChange('preferredContact', e.target.value)}
-                    className="mr-2"
-                  />
-                  WhatsApp
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="preferredContact"
-                    value="email"
-                    checked={formData.preferredContact === 'email'}
-                    onChange={(e) => handleInputChange('preferredContact', e.target.value)}
-                    className="mr-2"
-                  />
-                  Email
-                </label>
-              </div>
+              <Input
+                value={formData.phone}
+                onChange={(e) => handleOptionSelect('phone', e.target.value)}
+                placeholder="+7 (999) 123-45-67"
+                className="text-lg p-4 text-center"
+                type="tel"
+              />
             </div>
             
             <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-              <h4 className="font-semibold text-green-800 mb-2">Что будет дальше:</h4>
+              <h4 className="font-semibold text-green-800 mb-2 text-center">Что будет дальше:</h4>
               <ul className="text-sm text-green-700 space-y-1">
                 <li>✓ Звонок в течение 15 минут</li>
                 <li>✓ Бесплатный аудит вашего учета</li>
                 <li>✓ Персональное предложение</li>
-                <li>✓ Начало работы через 1-2 дня</li>
+                <li>✓ Экономия 15% на налогах</li>
               </ul>
             </div>
           </div>
@@ -254,9 +235,9 @@ const ConsultationForm = ({ children }: ConsultationFormProps) => {
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>Бесплатная консультация</DialogTitle>
+          <DialogTitle className="text-center">Бесплатная консультация</DialogTitle>
         </DialogHeader>
         
         <div className="mb-6">
@@ -274,7 +255,7 @@ const ConsultationForm = ({ children }: ConsultationFormProps) => {
 
         {renderStep()}
 
-        <div className="flex justify-between mt-6">
+        <div className="flex justify-between mt-8">
           <Button
             variant="outline"
             onClick={handlePrev}
@@ -288,10 +269,11 @@ const ConsultationForm = ({ children }: ConsultationFormProps) => {
           {currentStep === totalSteps ? (
             <Button
               onClick={handleSubmit}
+              disabled={!canProceed()}
               className="bg-orange-500 hover:bg-orange-600 text-white flex items-center gap-2"
             >
               <Check className="w-4 h-4" />
-              Отправить заявку
+              Получить консультацию
             </Button>
           ) : (
             <Button
